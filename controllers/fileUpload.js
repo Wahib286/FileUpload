@@ -1,4 +1,5 @@
 const File = require("../models/File");
+const cloudinary = require('cloudinary').v2;
 
 exports.localFileUpload = async (req,res)=>{
     try{
@@ -22,4 +23,31 @@ exports.localFileUpload = async (req,res)=>{
         console.log("not ablle to upload file on server")
         console.log(error);
     }
+}
+function isFileTypeSupported(type, supportedTypes){
+    return supportedTypes.includes(type);
+}
+
+async function uuploadFileToCloudinary(file, folder){
+    await cloudinary.uploader.upload(file.tempFilePath)
+}
+exports.imageUpload = async (req,res)=>{
+    //data fetch
+    const {name, tags, email} = req.body;
+
+    const file = req.files.imageFile;
+
+    //validation
+    const supportedTypes = ["jpeg", "png", "jpg"];
+    const fileTypes = file.name.split('.')[1].toLowerCase();
+
+    if(!isFileTypeSupported(fileTypes, supportedTypes)){
+        res.status(400).json({
+            success:false,
+            message:"file type not supported"
+        })
+    }
+
+    //file format supported 
+
 }
