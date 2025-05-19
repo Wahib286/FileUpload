@@ -33,15 +33,12 @@ fileSchema.post("save",async function(doc){
        });
 
        //send mail
-       console.log(doc.email);
        let info = await transporter.sendMail({
         from:`Wahib Bashar`,
         to: doc.email,
         subject: " New file has been successfully uploaded",
         html:`<h2> Hello Jee Ki Haal An</h2> <p> File Uploaded</p>`,
        })
-
-       console.log(info);
     }
     catch(err){
         console.error(err)
@@ -49,3 +46,5 @@ fileSchema.post("save",async function(doc){
 })
 
 module.exports = mongoose.model("File", fileSchema);
+
+
